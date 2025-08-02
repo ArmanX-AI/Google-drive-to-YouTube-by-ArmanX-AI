@@ -1,0 +1,549 @@
+{
+  "name": "Google Drive to YouTube by ArmanX AI",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "6a454bcd-f777-418a-bc44-e5228254c2eb",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1hp7cfZDqztDNHLW",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo",
+          "mode": "list",
+          "cachedResultName": "Dr Israr Islamic Reel",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Not Published"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        224,
+        0
+      ],
+      "id": "7f5fb09a-baf0-4948-a317-27e43a68f584",
+      "name": "Get row(s) in sheet",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EpaZcuaZH2qZJrp6",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo",
+          "mode": "list",
+          "cachedResultName": "Dr Israr Islamic Reel",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14OsE-cJDYVgtl09L-BVmLnYprSQUcnqZc6vjfUXd9Eo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "=Published",
+            "Name": "={{ $('Get row(s) in sheet').first().json.Name }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1680,
+        0
+      ],
+      "id": "e2abc934-5a3f-4407-b09e-7653ac85dd7e",
+      "name": "Update row in sheet",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EpaZcuaZH2qZJrp6",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $('Get row(s) in sheet').first().json.Name }}",
+        "limit": 1,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1_Oz_5rqk5BLZkWf7jvCSN_l72ofxtah7",
+            "mode": "list",
+            "cachedResultName": "Islamic Reels By Dr Israr",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1_Oz_5rqk5BLZkWf7jvCSN_l72ofxtah7"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1024,
+        0
+      ],
+      "id": "da1ee300-5ea8-43f0-9cc8-e5620e2c8a38",
+      "name": "Search files and folders",
+      "executeOnce": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1hp7cfZDqztDNHLW",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03398111-23dc-4a94-b8b8-fda956959cb6",
+              "name": "Title",
+              "value": "=Dr. Israr Ahmad | Episode {{ $('Get row(s) in sheet').item.json.ID }} | Heart-Touching Bayan | Bayan Hub",
+              "type": "string"
+            },
+            {
+              "id": "87cb5dc5-cee8-4f2c-bc45-a62efa13f1e4",
+              "name": "Description",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "eaf61521-7704-4b6f-b2d7-6e78e51ea9fc",
+              "name": "Tags",
+              "value": "=DrIsrarAhmad Islam Bayan Allah Muhammad",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        0
+      ],
+      "id": "9a008dc1-53fe-485d-8dbf-1c6774d6e84d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 18
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6c4e5103-81ff-4fcc-9c86-f2895c16441e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a description for YouTube video about {{ $json.Name }}, Episode {{ $json.ID }} like:\n\nWelcome to Bayan Hub!\n\nIn this powerful speech by Dr. Israr Ahmad, you will discover deep Islamic wisdom, true guidance, and a fresh perspective to strengthen your Imaan. This Dr. Israr Ahmad bayan is Episode {{ $('Get row(s) in sheet').item.json.ID }} of our new series sharing life-changing Islamic speeches, motivational talks, and Quranic lessons for every Muslim.\n\nDr. Israr Ahmad (رحمہ اللہ) was known for his clear explanations of the Quran and his inspiring Islamic lectures. His Islamic speeches continue to awaken hearts around the world.\n\n📌 Topics covered in this series:  Importance of Quran in our daily life  How to revive your connection with Allah  Lessons for the Ummah from the life of Prophet Muhammad ﷺ  Islamic motivation to transform your life\n\n👉 Why you should watch:  Powerful message for every Muslim  Practical steps to improve your Deen  True Islamic knowledge, easy to understand\n\n🔔 Don’t forget to LIKE, COMMENT, and SUBSCRIBE to Bayan Hub for more inspiring Islamic bayans, Quranic stories, motivational speeches, and Islamic knowledge.\n\n📅 We aim to upload daily, Inn Sha ALlah.\n💫 Watch till the end & share with others — let’s spread the light together!\n\n#DrIsrarAhmad #IslamicSpeech #BayanHub #IslamicBayan #MotivationalIslamicSpeech #Quran #IslamicLectures",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "1474ba16-450e-43db-b6b2-3ffd63d6e1e2",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp-1219",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "86f98f89-08fa-4aa3-b737-9047b045c323",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "eabfEg5QM8zu6cic",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Step 1: Schedule\nSet the schedule as you need. The workflow will run based on your settings.\n",
+        "height": 272,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "b8b43dbd-f57c-49bb-8b32-bb594fc4c617",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Step 2: Get Data from Google Sheet\n\nA list of names from Google Drive that will be downloaded in the next steps.\n",
+        "height": 272,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "c9f0bfc0-a368-4408-b654-133d8c191855",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Step 3: Generate Description\n\nGemini (free) will create descriptions for the names collected from Google Sheets.\n",
+        "height": 272,
+        "width": 368,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "f4bbef1c-5ac1-4bea-82ab-a5ac23f75020",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Step 4: Organize Data\n\nThe Edit Field node will save the title, description, and tags used for YouTube.\n",
+        "height": 272,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "718659d0-131a-46f8-b3a6-720ffacc4fa5",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Step 5: Search File\n\nThis node will find the file ID by searching the name retrieved from Google Sheets.\n",
+        "height": 272,
+        "width": 224,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        960,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "1fe87284-7d3a-4bb7-8dcc-9a259852157c",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Step 6: Download File\n\nThis node will download the file using the ID found in the previous step.\n",
+        "height": 272,
+        "width": 224,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1184,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "19622fd1-7905-4aa3-b4e3-81bef3093a08",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Step 7: Upload to YouTube\n\nThis node will upload the video downloaded from Google Drive using the title, description, and tags organized in Step 4.\n",
+        "height": 272,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1408,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "bad3f44f-702f-40f9-b990-d175aa3c6e89",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Step 8: Update Status\n\nThis node will change the status from \"not publish\" to \"publish\" in the row using the name that are retrieved in step 2.\n",
+        "height": 272,
+        "width": 272,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1648,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "160870c6-e64f-40b2-bf3c-d6ddc1f3d496",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Important Notice from ArmanX AI:\nPlease select content that is educational and does not violate any rules or guidelines.\n",
+        "width": 480,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "c8682b44-4cec-44bb-a20f-17968585cd98",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $('Edit Fields').item.json.Title }}",
+        "regionCode": "US",
+        "categoryId": "27",
+        "binaryProperty": "=data",
+        "options": {
+          "description": "={{ $('Edit Fields').item.json.Description }}",
+          "privacyStatus": "public",
+          "tags": "={{ $('Edit Fields').item.json.Tags }}"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        0
+      ],
+      "id": "b936340b-0d10-4222-b9d7-acb85f488120",
+      "name": "Upload to YouTube",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "80ZRLtDqdbcBHMNV",
+          "name": "YouTube account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Upload to YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to YouTube": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "28a3bbbc-f233-4ec5-bd82-11142bbbfafa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2acd3e053b48d1175e813efb93ff36e81c06feb5fd18da30a554cd9a9365e0b1"
+  },
+  "id": "gwnbdOyuYJmzRIYZ",
+  "tags": []
+}
